@@ -1,16 +1,10 @@
-class VisitsSchedule {
+class VisitsSchedule extends elementToolsLib {
     constructor() {
+        super();
         this.currentMonthDate = new Date();
         this.today = new Date();
         this.selectedLanguage = 'en-US';
         this.currentMonthDate.setDate(1);
-    }
-    initiateMainContainer() {
-        if (!document.getElementById("mainContainer")) {
-            let tmp = document.createElement("div");
-            tmp.setAttribute("id", "mainContainer");
-            document.body.appendChild(tmp);
-        }
     }
     switchMonth(direction) {
         try {
@@ -26,7 +20,7 @@ class VisitsSchedule {
 
         }
         catch (Error) {
-            console.log("Something is wrong, try again later or check your settings");
+            console.log("Something went wrong, try again later or check your settings");
         }
     }
     generateCalendar(date) {
@@ -58,15 +52,5 @@ class VisitsSchedule {
         date.setDate(1);
         console.log(date);
     }
-    renderElem(elementTag, id, className, elementParentID, elementContent) {
-        if (!document.getElementById(id)) {
-            const element = document.createElement(elementTag);
-            if (id) element.setAttribute('id', id);
-            if (className) element.setAttribute('class', className);
-            document.getElementById(elementParentID).appendChild(element);
-        }
-        if (id && elementContent) document.getElementById(id).innerText = elementContent;
-    }
+
 }
-v1 = new VisitsSchedule();
-console.log(v1.generateCalendar(v1.currentMonthDate));
