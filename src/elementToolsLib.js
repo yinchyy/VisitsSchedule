@@ -14,6 +14,7 @@ class elementToolsLib {
             document.getElementById(elementParentID).appendChild(element);
         }
         if (id && elementContent) document.getElementById(id).innerText = elementContent;
+        return document.getElementById(id);
     }
     openPopUp() {
         if (!document.getElementById("popUpWindow")) {

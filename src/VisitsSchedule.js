@@ -24,6 +24,7 @@ class VisitsSchedule extends elementToolsLib {
         }
     }
     generateCalendar(date) {
+        let buttonDateID;
         const selectedMonth = date.getMonth();
         this.initiateMainContainer();
         this.renderElem("div", "calendarBox", null, "mainContainer", null);
@@ -40,18 +41,40 @@ class VisitsSchedule extends elementToolsLib {
         }
         date.setDate(-date.getDay() + 2);
         for (let i = 0; i <= 34; ++i) {
-            this.renderElem("button", `${date.getFullYear()} - ${date.getMonth() + 1} - ${date.getDate()}`, "dateButton", `d${(date.getDay() + 6) % 7}`, date.getDate());
+            buttonDateID = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+            this.renderElem("button", buttonDateID, "dateButton", `d${(date.getDay() + 6) % 7}`, date.getDate());
             if (date.getMonth() != selectedMonth) {
-                document.getElementById(`${date.getFullYear()} - ${date.getMonth() + 1} - ${date.getDate()}`).setAttribute("class", "prevOrNextMonthButton");
+                document.getElementById(buttonDateID).setAttribute("class", "prevOrNextMonthButton");
             }
-            document.getElementById(`${date.getFullYear()} - ${date.getMonth() + 1} - ${date.getDate()}`).setAttribute("onclick", "v1.openPopUp();");
+            document.getElementById(buttonDateID).setAttribute("onclick", `v1.manageVisit('${buttonDateID}');`);
             date.setDate(date.getDate() + 1);
         }
+        document.getElementById(`${this.today.getFullYear()}-${this.today.getMonth() + 1}-${this.today.getDate()}`).setAttribute("class", "todayButton");
         if (date.getDate() < 25) {
             date.setMonth(date.getMonth() - 1);
         }
         date.setDate(1);
         console.log(date);
     }
+    manageVisit(visitDate) {
+        this.openPopUp();
+        this.renderElem("div", "popUpContent", null, "popUpContainer", null);
+        this.renderElem("div", "visitData", "contentContainers", "popUpContent", null);
+        this.renderElem("div", "reservedDates", "contentContainers", "popUpContent", null);
 
+        this.renderElem("label", "clientNameLabel", null, "visitData", "Name:").setAttribute("for", "clientName");
+        this.renderElem("input", "clientName", "clientDataInputs", "visitData", null).setAttribute("name", "clientName");
+
+        this.renderElem("label", "clientSurnameLabel", null, "visitData", "Surname:").setAttribute("for", "clientSurname");
+        this.renderElem("input", "clientSurname", "clientDataInputs", "visitData", null).setAttribute("name", "clientSurname");
+
+        this.renderElem("label", "phoneNumberLabel", null, "visitData", "Phone number:").setAttribute("for", "phoneNumber");
+        this.renderElem("input", "phoneNumber", "clientDataInputs", "visitData", null).setAttribute("name", "phoneNumber");
+
+        this.renderElem("label", "pickedVisitTimeLabel", null, "visitData", "Visit time:").setAttribute("for", "pickedVisitTime");
+        this.renderElem("input", "pickedVisitTime", "clientDataInputs", "visitData", null).setAttribute("name", "pickedVisitTime");
+
+
+        this.renderElem("button", "test", null, "visitData", visitDate);
+    }
 }
