@@ -15,4 +15,17 @@ class elementToolsLib {
         }
         if (id && elementContent) document.getElementById(id).innerText = elementContent;
     }
+    openPopUp() {
+        if (!document.getElementById("popUpWindow")) {
+            let tmp = document.createElement("div");
+            tmp.setAttribute("id", "popUpWindow");
+            document.body.appendChild(tmp);
+            this.renderElem("div", "popUpContainer", "popUpContainer", "popUpWindow", null);
+            this.renderElem("button", "closePopUpButton", null, "popUpContainer", "X");
+            document.getElementById("closePopUpButton").setAttribute("onclick", "elementToolsLib.closePopUp();");
+        }
+    }
+    static closePopUp() {
+        document.getElementById("popUpWindow").remove();
+    }
 }

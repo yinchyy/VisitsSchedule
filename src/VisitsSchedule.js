@@ -44,6 +44,7 @@ class VisitsSchedule extends elementToolsLib {
             if (date.getMonth() != selectedMonth) {
                 document.getElementById(`${date.getFullYear()} - ${date.getMonth() + 1} - ${date.getDate()}`).setAttribute("class", "prevOrNextMonthButton");
             }
+            document.getElementById(`${date.getFullYear()} - ${date.getMonth() + 1} - ${date.getDate()}`).setAttribute("onclick", "v1.openPopUp();");
             date.setDate(date.getDate() + 1);
         }
         if (date.getDate() < 25) {
