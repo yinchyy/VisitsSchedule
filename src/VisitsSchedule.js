@@ -3,9 +3,10 @@ class VisitsSchedule extends elementToolsLib {
         super();
         this.currentMonthDate = new Date();
         this.today = new Date();
+        this.today.setHours(0, 0, 0, 0);
         this.selectedLanguage = 'en-US';
         this.currentMonthDate.setDate(1);
-        let visits = new dbManagement({ a: 3, d: 2 });
+        this.visits = new dbManagement();
     }
     switchMonth(direction) {
         try {
@@ -60,38 +61,63 @@ class VisitsSchedule extends elementToolsLib {
             document.getElementById(`${this.today.getFullYear()}-${this.today.getMonth() + 1}-${this.today.getDate()}`).setAttribute("class", "todayButton");
         }
         date.setDate(1);
-        console.log(date);
     }
     manageVisit(visitDate) {
-        let phone,time;
-        this.openPopUp();
-        this.renderElem("div", "popUpContent", null, "popUpContainer", null);
-        this.renderElem("div", "visitData", "contentContainers", "popUpContent", null);
-        this.renderElem("div", "reservedDates", "contentContainers", "popUpContent", null);
-
-        this.renderElem("label", "clientNameLabel", null, "visitData", "Name:").setAttribute("for", "clientName");
-        this.renderElem("input", "clientName", "clientDataInputs", "visitData", null).setAttribute("name", "clientName");
-
-        this.renderElem("label", "clientSurnameLabel", null, "visitData", "Surname:").setAttribute("for", "clientSurname");
-        this.renderElem("input", "clientSurname", "clientDataInputs", "visitData", null).setAttribute("name", "clientSurname");
-
-        this.renderElem("label", "phoneNumberLabel", null, "visitData", "Phone number:").setAttribute("for", "phoneNumber");
-        phone = this.renderElem("input", "phoneNumber", "clientDataInputs", "visitData", null);
-        phone.setAttribute("name", "phoneNumber");
-        phone.setAttribute("type", "tel");
-        phone.setAttribute("pattern", "[0-9]{3}-[0-9]{3}-[0-9]{4}");
-        phone.setAttribute("placeholder", "123-456-789");
-        
-        this.renderElem("label", "pickedVisitTimeLabel", null, "visitData", "Visit time:").setAttribute("for", "pickedVisitTime");
-        time=this.renderElem("input", "pickedVisitTime", "clientDataInputs", "visitData", null);
-        time.setAttribute("name", "pickedVisitTime");
-        time.setAttribute("type", "time");
+        if (new Date(visitDate) < this.today) {
+            alert("Can't reserve in a day from the past.");
+        }
+        else {
+            
+            let phone,time,submitData;
+            this.openPopUp();
+            this.renderElem("div", "popUpContent", null, "popUpContainer", null);
+            this.renderElem("div", "visitData", "contentContainers", "popUpContent", null);
+            this.renderElem("div", "reservedDates", "contentContainers", "popUpContent", null);
+            
+            this.renderElem("label", "clientNameLabel", null, "visitData", "Name:").setAttribute("for", "clientName");
+            this.renderElem("input", "clientName", "clientDataInputs", "visitData", null).setAttribute("name", "clientName");
+            
+            this.renderElem("label", "clientSurnameLabel", null, "visitData", "Surname:").setAttribute("for", "clientSurname");
+            this.renderElem("input", "clientSurname", "clientDataInputs", "visitData", null).setAttribute("name", "clientSurname");
+            
+            this.renderElem("label", "phoneNumberLabel", null, "visitData", "Phone number:").setAttribute("for", "phoneNumber");
+            phone = this.renderElem("input", "phoneNumber", "clientDataInputs", "visitData", null);
+            phone.setAttribute("name", "phoneNumber");
+            phone.setAttribute("type", "tel");
+            phone.setAttribute("pattern", "[0-9]{3}-[0-9]{3}-[0-9]{4}");
+            phone.setAttribute("placeholder", "123-456-789");
+            
+            this.renderElem("label", "pickedVisitTimeLabel", null, "visitData", "Visit time:").setAttribute("for", "pickedVisitTime");
+            time=this.renderElem("input", "pickedVisitTime", "clientDataInputs", "visitData", null);
+            time.setAttribute("name", "pickedVisitTime");
+            time.setAttribute("type", "time");
         time.setAttribute("min", "8:00");
         time.setAttribute("max", "16:00");
-        time.setAttribute("step", "30");
+        time.setAttribute("step", "60");
         
 
-
-        this.renderElem("button", "test", null, "visitData", visitDate);
+        
+        submitData = this.renderElem("button", "test", null, "visitData", "Submit");
+        submitData.setAttribute("onclick", "v1.submitData('"+visitDate+"')");
+        }
     }
-}
+    submitData(visitDate) {
+        if (document.getElementById("errorMessage")) {   
+            document.getElementById("errorMessage").remove();
+        }
+            let result = this.visits.addObj({
+                clientName: document.getElementById("clientName").value,
+                clientSurname: document.getElementById("clientSurname").value,
+                clientPhone: document.getElementById("phoneNumber").value,
+                visitDate: visitDate,
+                visitTime: document.getElementById("pickedVisitTime").value
+    
+            });
+            if (!result) {
+                this.renderElem("p", "errorMessage", null, "visitData", "No free spaces for given time.");
+            }
+            else {
+                this.renderElem("p", "errorMessage", null, "visitData", "Successfully signed up for a visit.");
+            }    
+        }
+ }
