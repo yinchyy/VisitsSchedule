@@ -105,12 +105,17 @@ class VisitsSchedule extends elementToolsLib {
         if (document.getElementById("errorMessage")) {   
             document.getElementById("errorMessage").remove();
         }
+        let correctedTime = document.getElementById("pickedVisitTime").value.split(':');
+        let minutes = correctedTime[1] - (correctedTime[1] % 30);
+        correctedTime = `${correctedTime[0]}:${minutes>10?minutes:"0"+minutes}`;
+        console.log(correctedTime);
+
             let result = this.visits.addObj({
                 clientName: document.getElementById("clientName").value,
                 clientSurname: document.getElementById("clientSurname").value,
                 clientPhone: document.getElementById("phoneNumber").value,
                 visitDate: visitDate,
-                visitTime: document.getElementById("pickedVisitTime").value
+                visitTime: correctedTime
     
             });
             if (!result) {
