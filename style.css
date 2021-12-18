@@ -1,120 +1,156 @@
-body{
-    margin: 0;
-    padding: 0;
-    background-color: rgb(39, 39, 39);
-    color: white;
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(39, 39, 39);
+  color: white;
 }
-#mainContainer{
-    width:100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    justify-content: center;
+#mainContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
 }
-#calendarBox{
-    width:100%;
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-align-items: center;
+#calendarBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
-#monthContainer{
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-
+#monthContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
-#dateContainer{
-    width: 50%;
-    height: 80%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+#dateContainer {
+  width: 50%;
+  height: 60%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
-.d{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width:80px;
-    height: 100%;
-    margin-right: 5px;
+.d {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 80px;
+  height: 100%;
+  margin-right: 5px;
 }
-.dateButton,.todayButton{
-    background-color: whitesmoke;
-    border: 1px solid black;
-    border-radius: 5px;
+.dateButton,
+.todayButton {
+  background-color: whitesmoke;
+  border: 1px solid black;
+  border-radius: 5px;
 }
-.d>button{
-    height: 80px;
-    width: 100%;
-    margin-bottom: 5px;
+.d > button {
+  height: 80px;
+  width: 100%;
+  margin-bottom: 5px;
 }
-.d>button:hover{
-    background-color: rgb(163, 113, 6);
-
+.d > button:hover {
+  background-color: rgb(163, 113, 6);
 }
-.todayButton{
-    background-color: orange;
+.todayButton {
+  background-color: orange;
 }
-.prevOrNextMonthButton{
-    color: rgb(255, 255, 255);
-    background-color: rgb(175, 175, 175);
-    border-radius: 5px;
-    border: 1px solid gray;
+.prevOrNextMonthButton {
+  color: rgb(255, 255, 255);
+  background-color: rgb(175, 175, 175);
+  border-radius: 5px;
+  border: 1px solid gray;
 }
-#popUpWindow{
-    position: absolute;
-    left:0;
-    top:0;
-    width: 100vw;
-    height:100vh;
-    z-index: 1;
-    padding:0;
-    margin:0;
-    background-color: rgba(0, 0, 0, 0.85);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+#popUpWindow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  padding: 0;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
-#popUpContainer{
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-align-items: flex-start;
-width: 50vw;
-height:50vh;
-background-color: rgb(134, 131, 131);
-box-shadow: 0px 0px 50px 2px red;
-border: 1px solid black;
-border-radius: 15px;
+#popUpContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 50vw;
+  height: 50vh;
+  background-color: rgb(134, 131, 131);
+  box-shadow: 0px 0px 50px 2px red;
+  border: 1px solid black;
+  border-radius: 15px;
 }
-#closePopUpButton{
-align-self: flex-end;
-height: 30px;
-width: 30px;
-margin: 10px 10px 0 0;
-border: 1px solid red;
-background-color: red;
-color: rgb(179, 0, 0);
-border-radius: 25px;
+#closePopUpButton {
+  align-self: flex-end;
+  height: 30px;
+  width: 30px;
+  margin: 10px 10px 0 0;
+  border: 1px solid red;
+  background-color: red;
+  color: rgb(179, 0, 0);
+  border-radius: 25px;
 }
-#closePopUpButton:hover{
-    color: black;
+#closePopUpButton:hover {
+  color: black;
 }
-#popUpContent{
-    width: 90%;
-    padding: 5%;
-    height: 80%;
-    display: flex;
-    flex-direction: row;
+#popUpContent {
+  width: 90%;
+  padding: 5%;
+  height: 80%;
+  display: flex;
+  flex-direction: row;
 }
-.contentContainers{
-    width: 50%;
-    height: 100%;
+.contentContainers {
+  width: 50%;
+  height: 100%;
 }
-.clientDataInputs{
-    width: 100%;
+.clientDataInputs {
+  width: 90%;
+}
+#reservedDates {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+}
+.visitObjects {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 95%;
+  border: 1px solid black;
+  margin-bottom: 7px;
+  border-radius: 15px;
+  background-color: #555;
+}
+.visitObjects > p {
+  display: flex;
+  justify-content: center;
+  margin: 5px 4px 0 0;
+}
+#logoArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  height: 10%;
+}
+#logotype {
+  width: 100px;
+  height: 100px;
+}
+#brandName {
+  font-size: 40px;
 }

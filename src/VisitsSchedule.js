@@ -26,7 +26,7 @@ class VisitsSchedule extends elementToolsLib {
         }
     }
     generateCalendar(date) {
-        let buttonDateID,thisMonth;
+        let buttonDateID,thisMonth,logotype;
         const selectedMonth = date.getMonth();
         this.initiateMainContainer();
         this.renderElem("div", "calendarBox", null, "mainContainer", null);
@@ -37,6 +37,11 @@ class VisitsSchedule extends elementToolsLib {
         this.renderElem("button", "nextMonth", null, "monthContainer", ">");
         document.getElementById("nextMonth").setAttribute("onclick", "v1.switchMonth(1)");
         this.renderElem("div", "dateContainer", null, "calendarBox", null);
+        this.renderElem("div", "logoArea", null, "calendarBox", null);
+        logotype = this.renderElem("img", "logotype", null, "logoArea", null);
+        logotype.setAttribute("src", "assets/scissors.svg");
+        this.renderElem("p", "brandName", null, "logoArea", "WeCutHair.");
+
         for (let i = 0; i <= 6; ++i) {
             this.renderElem("div", `d${i}`, `d`, "dateContainer", null);
             this.renderElem("p", `dayLabel${i}`, `dayLabel`, `d${i}`, new Date(2020, 11, i).toLocaleDateString(this.selectedLanguage, { weekday: 'short' }));
@@ -66,8 +71,7 @@ class VisitsSchedule extends elementToolsLib {
         if (new Date(visitDate) < this.today) {
             alert("Can't reserve in a day from the past.");
         }
-        else {
-            
+        else {           
             let phone,time,submitData;
             this.openPopUp();
             this.renderElem("div", "popUpContent", null, "popUpContainer", null);
@@ -91,15 +95,35 @@ class VisitsSchedule extends elementToolsLib {
             time=this.renderElem("input", "pickedVisitTime", "clientDataInputs", "visitData", null);
             time.setAttribute("name", "pickedVisitTime");
             time.setAttribute("type", "time");
-        time.setAttribute("min", "8:00");
-        time.setAttribute("max", "16:00");
-        time.setAttribute("step", "60");
+            time.setAttribute("min", "8:00");
+            time.setAttribute("max", "16:00");
+            time.setAttribute("step", "60");
         
+            this.renderObjectsInPopUpInSelectedDate(visitDate);
 
-        
-        submitData = this.renderElem("button", "test", null, "visitData", "Submit");
-        submitData.setAttribute("onclick", "v1.submitData('"+visitDate+"')");
+            submitData = this.renderElem("button", "test", null, "visitData", "Submit");
+            submitData.setAttribute("onclick", "v1.submitData('"+visitDate+"')");
+    }
+}
+renderObjectsInPopUpInSelectedDate(visitDate) {
+    const objectsToRender = this.visits.getObjectsMatchingParameterValue('visitDate', visitDate);
+    if (objectsToRender.length === 0) {
+        this.renderElem("p", "obj404Message", null, "reservedDates", "Nothing to display.");
+    }
+    else {
+        if (document.getElementById("obj404Message")) {
+            document.getElementById("obj404Message").remove();
         }
+        for (const index of objectsToRender) {
+            this.renderElem("div", `${visitDate}_${index.visitTime}`, "visitObjects", "reservedDates", null);
+            for (const key in index) {
+                let elem = this.renderElem("p", `elem${key},${index['visitTime']}`, null, `${visitDate}_${index.visitTime}`, index[key]);
+                if (key !== "visitDate" && key !== "visitTime") {
+                    elem.style.width = '100%';
+                }
+            }
+        }
+    }
     }
     submitData(visitDate) {
         if (document.getElementById("errorMessage")) {   
@@ -123,6 +147,7 @@ class VisitsSchedule extends elementToolsLib {
             }
             else {
                 this.renderElem("p", "errorMessage", null, "visitData", "Successfully signed up for a visit.");
+                this.renderObjectsInPopUpInSelectedDate(visitDate);
             }    
         }
  }

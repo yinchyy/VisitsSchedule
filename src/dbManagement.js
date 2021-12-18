@@ -1,6 +1,9 @@
 class dbManagement{
     constructor(obj) {
         this.objects = new Array();
+        if ('calendar' in localStorage) {
+            this.objects = JSON.parse(localStorage.getItem('calendar'));
+        }
     }
     editData(obj) {
         for (const key in obj) {
@@ -16,7 +19,16 @@ class dbManagement{
             }
         }
         this.objects.push(obj);
-        console.log(this.objects);
+        localStorage.setItem('calendar', JSON.stringify(this.objects));
         return true;
+    }
+    getObjectsMatchingParameterValue(parameter, value) {
+        let matchingObjects = new Array();
+        for (let index of this.objects) {
+            if (index[parameter] === value) {
+                matchingObjects.push(index);
+            }
+        }
+        return matchingObjects;
     }
 }
